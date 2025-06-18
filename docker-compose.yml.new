@@ -1,0 +1,16 @@
+# Docker Compose configuration
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=StrongPassword123!  # You should change this to a secure password
+      - MSSQL_PID=Developer  # Specify edition
+      - MSSQL_ENCRYPT=OPTIONAL  # Allow non-encrypted connections
+      - MSSQL_TRUST_CERT=1  # Trust the self-signed certificate
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./bak:/var/opt/mssql/backup  # Mount the bak folder for restoring backups
+      - ./script:/var/opt/mssql/script  # Mount the script folder for running scripts
+    container_name: timetracker-sqlserver
