@@ -1,9 +1,9 @@
 -- Step 1: Display the logical file names from the backup file for information
 PRINT '-- File list from backup:';
 RESTORE FILELISTONLY FROM DISK = '/var/opt/mssql/backup/timetracker.bak';
+GO
 
 -- Step 2: Restore the database with explicit MOVE statements for data and log files
--- We've checked the backup and found the exact logical file names: 'TimeTracker_Data' and 'TimeTracker_Log'
 PRINT '-- Restoring database:';
 RESTORE DATABASE TimeTracker 
 FROM DISK = '/var/opt/mssql/backup/timetracker.bak' 
@@ -14,10 +14,12 @@ WITH
     STATS = 10,
     MAXTRANSFERSIZE = 1048576,
     RECOVERY;
+GO
 
 -- Step 3: Verify the database is restored
 PRINT '-- Verifying database restoration:';
 SELECT name, database_id, state_desc FROM sys.databases WHERE name = 'TimeTracker';
+GO
 
 -- Step 4: Show the tables in the restored database (only if the database exists)
 PRINT '-- Listing tables in the restored database:';
@@ -30,3 +32,4 @@ ELSE
 BEGIN
     PRINT 'Database TimeTracker does not exist or was not restored successfully.';
 END
+GO
