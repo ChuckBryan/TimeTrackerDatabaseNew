@@ -19,7 +19,9 @@ GO
 
 -- Step 3: Verify the database is restored
 PRINT '-- Verifying database restoration:';
-SELECT name, database_id, state_desc FROM sys.databases WHERE name = 'TimeBilling';
+SELECT name, database_id, state_desc
+FROM sys.databases
+WHERE name = 'TimeBilling';
 GO
 
 -- Step 4: Show the tables in the restored database (only if the database exists)
@@ -27,7 +29,10 @@ PRINT '-- Listing tables in the restored database:';
 IF DB_ID('TimeBilling') IS NOT NULL
 BEGIN
     USE TimeBilling;
-    SELECT TABLE_SCHEMA, TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' ORDER BY TABLE_SCHEMA, TABLE_NAME;
+    SELECT TABLE_SCHEMA, TABLE_NAME
+    FROM INFORMATION_SCHEMA.TABLES
+    WHERE TABLE_TYPE = 'BASE TABLE'
+    ORDER BY TABLE_SCHEMA, TABLE_NAME;
 END
 ELSE
 BEGIN
